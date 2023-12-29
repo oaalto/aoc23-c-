@@ -4,41 +4,26 @@
 struct position {
     int x;
     int y;
+
+    position(const int x, const int y) : x(x), y(y) {}
 };
 
 struct part_number {
     int value;
     position top_left;
     position bottom_right;
+
+    part_number(const int value, const int start, const int end, const int y) : value(value),
+                                                                                top_left(position(start - 1, y - 1)),
+                                                                                bottom_right(
+                                                                                    position(end + 1, y + 1)) {}
 };
 
 struct special_char {
     char ch;
     position pos;
+
+    special_char(const char ch, const int x, const int y) : ch(ch), pos(position(x, y)) {}
 };
-
-part_number make_part_number(const int value, const int start, const int end, const int y) {
-    return part_number {
-        .value = value,
-        .top_left = position {
-            .x = start - 1,
-            .y = y - 1
-        },
-        .bottom_right = position {
-            .x = end + 1,
-            .y = y + 1
-        }
-    };
-}
-
-special_char make_special_char(const char ch, const int x, const int y) {
-    return special_char {
-        .ch = ch,
-        .pos = position {
-            .x = x,
-            .y = y
-        }
-    };
-}
 
 #endif //ADVENTOFCODE_DAY3_H

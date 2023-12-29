@@ -10,7 +10,7 @@ namespace part1 {
             return p.second != '.' && !isdigit(p.second);
         };
         auto to_special_char = [y = line_info.first](const std::pair<int, char> &p) {
-            return make_special_char(p.second, p.first, y);
+            return special_char(p.second, p.first, y);
         };
 
         return line_info.second
@@ -47,8 +47,8 @@ namespace part1 {
                 }
 
                 if (p.first - r.end_digit_pos > 1) {
-                    r.part_numbers.push_back(make_part_number(stoi(r.cur_part_number), r.start_digit_pos,
-                                                              r.end_digit_pos, y));
+                    r.part_numbers.emplace_back(stoi(r.cur_part_number), r.start_digit_pos,
+                                                r.end_digit_pos, y);
 
                     r.start_digit_pos = p.first;
                     r.end_digit_pos = p.first;
@@ -71,8 +71,8 @@ namespace part1 {
         // Handle possible numbers from the end of the line
         int last_num = stoi(r.cur_part_number);
         if (!r.part_numbers.empty() && r.part_numbers.back().value != last_num) {
-            r.part_numbers.push_back(make_part_number(last_num, r.start_digit_pos, r.end_digit_pos,
-                                                      line_info.first));
+            r.part_numbers.emplace_back(last_num, r.start_digit_pos, r.end_digit_pos,
+                                        line_info.first);
         }
 
         return r.part_numbers;
