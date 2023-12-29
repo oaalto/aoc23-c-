@@ -1,6 +1,9 @@
 #ifndef ADVENTOFCODE_DAY3_H
 #define ADVENTOFCODE_DAY3_H
 
+/**
+ * A (x, y) coordinate in the input.
+ */
 struct position {
     int x;
     int y;
@@ -8,6 +11,9 @@ struct position {
     position(const int x, const int y) : x(x), y(y) {}
 };
 
+/**
+ * A single part number and its bounding rectangle.
+ */
 struct part_number {
     int value;
     position top_left;
@@ -19,6 +25,9 @@ struct part_number {
                                                                                     position(end + 1, y + 1)) {}
 };
 
+/**
+ * A single special character and its position.
+ */
 struct special_char {
     char ch;
     position pos;

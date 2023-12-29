@@ -1,3 +1,11 @@
+/**
+ * Advent of Code 2023 day 3
+ * https://adventofcode.com/2023/day/3
+ *
+ * Only the first part is done. It contains finding all part numbers with adjacent special characters, and then
+ * summing them all up.
+ */
+
 #include "day3.h"
 #include "../util.h"
 #include <print>
@@ -5,6 +13,12 @@
 #include <algorithm>
 
 namespace part1 {
+    /**
+     * Parse all special characters and their positions from a single input line.
+     *
+     * @param line_info The input line and its index (y-coodinate)
+     * @return A vector of all special characters
+     */
     std::vector<special_char> parse_special_characters_from_line(const std::pair<int, std::string> &line_info) {
         auto is_special_char = [](const std::pair<int, char> &p) {
             return p.second != '.' && !isdigit(p.second);
@@ -20,6 +34,12 @@ namespace part1 {
                | std::ranges::to<std::vector>();
     }
 
+    /**
+     * Parse all special characters and their locations from the input lines.
+     *
+     * @param lines All input lines
+     * @return A vector of all special characters found.
+     */
     std::vector<special_char> parse_special_characters(const std::vector<std::string> &lines) {
         return lines
                | std::views::enumerate
@@ -28,6 +48,12 @@ namespace part1 {
                | std::ranges::to<std::vector>();
     }
 
+    /**
+     * Parse all part numbers and their bounding boxes from the input line.
+     *
+     * @param line_info The input line and its index (y-coordinate)
+     * @return A vector containing all part numbers from the input line.
+     */
     std::vector<part_number> parse_part_numbers_from_line(const std::pair<int, std::string> &line_info) {
         auto is_digit = [](const std::pair<int, char> &p) {
             return isdigit(p.second);
@@ -83,6 +109,14 @@ namespace part1 {
                && pos.y >= top_left.y && pos.y <= bottom_right.y;
     }
 
+    /**
+     * Parse all valid part numbers from the input given the list of special characters. Return the summed up value from
+     * all the valid part numbers.
+     *
+     * @param lines All input lines
+     * @param special_characters All special characters found from the input.
+     * @return The summed up value from all valid part numbers.
+     */
     int calculate_result(const std::vector<std::string> &lines, const std::vector<special_char> &special_characters) {
         auto filter = [special_characters](const part_number &pn) {
             return std::ranges::any_of(special_characters, [pn](const special_char sc) {
