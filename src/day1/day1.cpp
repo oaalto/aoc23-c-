@@ -6,10 +6,8 @@
 #include <algorithm>
 #include "../util.h"
 
-using namespace std;
-
-static const string NUMBERS = "0123456789";
-static const map<string, string> NUMBER_MAP = {
+static const std::string NUMBERS = "0123456789";
+static const std::map<std::string, std::string> NUMBER_MAP = {
     {"one",   "1"},
     {"two",   "2"},
     {"three", "3"},
@@ -22,7 +20,7 @@ static const map<string, string> NUMBER_MAP = {
 };
 
 namespace part1 {
-    int parse_line(const string &line) {
+    int parse_line(const std::string &line) {
         auto first = line.find_first_of(NUMBERS);
         auto last = line.find_last_of(NUMBERS);
 
@@ -32,40 +30,40 @@ namespace part1 {
     void run() {
         int sum = calculate_sum_from_file("data/day1_input.txt", parse_line);
 
-        cout << "Part 1 Sum: " << sum << endl;
+        std::cout << "Part 1 Sum: " << sum << std::endl;
     }
 }
 
 namespace part2 {
-    void check_for_words(const string &line, vector<tuple<size_t, string>> &found_numbers) {
+    void check_for_words(const std::string &line, std::vector<std::tuple<size_t, std::string>> &found_numbers) {
         for (auto &word: NUMBER_MAP) {
             auto first = line.find(word.first);
-            if (first != string::npos) {
+            if (first != std::string::npos) {
                 found_numbers.emplace_back(first, word.second);
             }
             auto last = line.rfind(word.first);
-            if (last != string::npos) {
+            if (last != std::string::npos) {
                 found_numbers.emplace_back(last, word.second);
             }
         }
     }
 
-    bool number_comparator(const tuple<size_t, string> &t1, const tuple<size_t, string> &t2) {
+    bool number_comparator(const std::tuple<size_t, std::string> &t1, const std::tuple<size_t, std::string> &t2) {
         size_t first = get<0>(t1);
         size_t second = get<0>(t2);
         return first < second;
     }
 
-    int parse_line(const string &line) {
-        vector<tuple<size_t, string>> found_numbers;
+    int parse_line(const std::string &line) {
+        std::vector<std::tuple<size_t, std::string>> found_numbers;
 
         auto first = line.find_first_of(NUMBERS);
-        if (first != string::npos) {
+        if (first != std::string::npos) {
             found_numbers.emplace_back(first, line.substr(first, 1));
         }
 
         auto last = line.find_last_of(NUMBERS);
-        if (last != string::npos) {
+        if (last != std::string::npos) {
             found_numbers.emplace_back(last, line.substr(last, 1));
         }
 
@@ -81,7 +79,7 @@ namespace part2 {
 
     void run() {
         int sum = calculate_sum_from_file("data/day1_input.txt", parse_line);
-        cout << "Part 2 Sum: " << sum << endl;
+        std::cout << "Part 2 Sum: " << sum << std::endl;
     }
 }
 
