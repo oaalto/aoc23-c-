@@ -9,12 +9,12 @@
  */
 
 #include <iostream>
-#include <string>
 #include <vector>
 #include <tuple>
 #include <map>
 #include <algorithm>
 #include "../util.h"
+#include "day1.h"
 
 static const std::string NUMBERS = "0123456789";
 static const std::map<std::string, std::string> NUMBER_MAP = {
@@ -29,14 +29,7 @@ static const std::map<std::string, std::string> NUMBER_MAP = {
     {"nine",  "9"}
 };
 
-namespace part1 {
-    /**
-     * Find the first and last number on the line and combine them into an integer.
-     * This function assumes that there is at least 1 number in the input string.
-     *
-     * @param line The input string
-     * @return The number gotten by combining the two numbers found.
-     */
+namespace day1::part1 {
     int parse_line(const std::string &line) {
         auto first = line.find_first_of(NUMBERS);
         auto last = line.find_last_of(NUMBERS);
@@ -51,7 +44,7 @@ namespace part1 {
     }
 }
 
-namespace part2 {
+namespace day1::part2 {
     /**
      * Look for spelled out numbers, only the first and last on the line are added to the output vector.
      *
@@ -71,13 +64,6 @@ namespace part2 {
         }
     }
 
-    /**
-     * Find all the possible first and last numbers from the input, sort them and combine the first and last into
-     * the result number.
-     *
-     * @param line The input string
-     * @return The number combined from the first and last number, either spelled out or numeric.
-     */
     int parse_line(const std::string &line) {
         std::vector<std::tuple<size_t, std::string>> found_numbers;
 
@@ -111,11 +97,4 @@ namespace part2 {
         int sum = calculate_sum_from_file("data/day1_input.txt", parse_line);
         std::cout << "Part 2 Sum: " << sum << std::endl;
     }
-}
-
-int main() {
-    part1::run();
-    part2::run();
-
-    return 0;
 }

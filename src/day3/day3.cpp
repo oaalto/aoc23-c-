@@ -12,7 +12,8 @@
 #include <ranges>
 #include <algorithm>
 
-namespace part1 {
+
+namespace day3::part1 {
     /**
      * Parse all special characters and their positions from a single input line.
      *
@@ -117,7 +118,8 @@ namespace part1 {
      * @param special_characters All special characters found from the input.
      * @return The summed up value from all valid part numbers.
      */
-    int calculate_result(const std::vector<std::string> &lines, const std::vector<special_char> &special_characters) {
+    int
+    calculate_result(const std::vector<std::string> &lines, const std::vector<special_char> &special_characters) {
         auto filter = [special_characters](const part_number &pn) {
             return std::ranges::any_of(special_characters, [pn](const special_char sc) {
                 return rect_contains(pn.top_left, pn.bottom_right, sc.pos);
@@ -143,10 +145,4 @@ namespace part1 {
 
         std::println("Part 1 result: {}", result);
     }
-}
-
-int main() {
-    part1::run();
-
-    return 0;
 }

@@ -9,7 +9,6 @@
  * by multiplying the colors and then summing them up.
  */
 
-#include <string>
 #include <iostream>
 #include <regex>
 #include <numeric>
@@ -54,7 +53,7 @@ std::string_view parse_cube_data(const std::string_view line) {
  * @param cube The cube to be updated
  * @param cube_str A string containing the color and its count.
  */
-void update_cube(cubes &cube, const std::string_view cube_str) {
+void update_cube(day2::cubes &cube, const std::string_view cube_str) {
     std::regex e("(.*) (red|green|blue)");
     std::match_results<std::string_view::const_iterator> sm;
     if (regex_match(cube_str.begin(), cube_str.end(), sm, e)) {
@@ -76,11 +75,11 @@ void update_cube(cubes &cube, const std::string_view cube_str) {
  * @param cube_strings A vector containing all the hands in a particular game.
  * @return All the hands parsed into cubes-structs.
  */
-std::vector<cubes> parse_cubes(const std::vector<std::string_view> &cube_strings) {
-    std::vector<cubes> parsed_cubes;
+std::vector<day2::cubes> parse_cubes(const std::vector<std::string_view> &cube_strings) {
+    std::vector<day2::cubes> parsed_cubes;
 
     for (const std::string_view sv: cube_strings) {
-        cubes cube {};
+        day2::cubes cube {};
         auto splitted = std::views::split(sv, ',');
         for (auto one_cube: splitted) {
             update_cube(cube, std::string_view(one_cube));
@@ -97,7 +96,7 @@ std::vector<cubes> parse_cubes(const std::vector<std::string_view> &cube_strings
  * @param line The input game data.
  * @return The game data as a vector of cubes-structs.
  */
-std::vector<cubes> parse_cubes_from_line(const std::string &line) {
+std::vector<day2::cubes> parse_cubes_from_line(const std::string &line) {
     const std::string_view cube_data = parse_cube_data(line);
     const std::vector<std::string_view> cube_strings =
         cube_data
@@ -107,7 +106,7 @@ std::vector<cubes> parse_cubes_from_line(const std::string &line) {
     return parse_cubes(cube_strings);
 }
 
-namespace part1 {
+namespace day2::part1 {
     bool is_valid_cube(const cubes &cube) {
         return cube.red <= RED_CUBES &&
                cube.green <= GREEN_CUBES &&
@@ -142,7 +141,7 @@ namespace part1 {
     }
 }
 
-namespace part2 {
+namespace day2::part2 {
     /**
      * Build a cubes-struct containing the largest values for a given color from the input vector.
      *
@@ -176,11 +175,4 @@ namespace part2 {
 
         std::cout << "Part 2 Sum: " << sum << std::endl;
     }
-}
-
-int main() {
-    part1::run();
-    part2::run();
-
-    return 0;
 }
