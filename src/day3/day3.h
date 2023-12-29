@@ -2,6 +2,7 @@
 #define ADVENTOFCODE_DAY3_H
 
 #include <string>
+#include <vector>
 
 namespace day3 {
     /**
@@ -41,13 +42,24 @@ namespace day3 {
 
 
     namespace part1 {
-        int parse_line(const std::string &line);
+        /**
+         * Parse all special characters and their locations from the input lines.
+         *
+         * @param lines All input lines
+         * @return A vector of all special characters found.
+         */
+        std::vector<special_char> parse_special_characters(const std::vector<std::string> &lines);
 
-        void run();
-    }
-
-    namespace part2 {
-        int parse_line(const std::string &line);
+        /**
+         * Parse all valid part numbers from the input given the list of special characters. Return the summed up value from
+         * all the valid part numbers.
+         *
+         * @param lines All input lines
+         * @param special_characters All special characters found from the input.
+         * @return The summed up value from all valid part numbers.
+         */
+        int calculate_result(const std::vector<std::string> &lines,
+                             const std::vector<special_char> &special_characters);
 
         void run();
     }

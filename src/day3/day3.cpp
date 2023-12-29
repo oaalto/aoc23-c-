@@ -35,12 +35,6 @@ namespace day3::part1 {
                | std::ranges::to<std::vector>();
     }
 
-    /**
-     * Parse all special characters and their locations from the input lines.
-     *
-     * @param lines All input lines
-     * @return A vector of all special characters found.
-     */
     std::vector<special_char> parse_special_characters(const std::vector<std::string> &lines) {
         return lines
                | std::views::enumerate
@@ -97,7 +91,7 @@ namespace day3::part1 {
 
         // Handle possible numbers from the end of the line
         int last_num = stoi(r.cur_part_number);
-        if (!r.part_numbers.empty() && r.part_numbers.back().value != last_num) {
+        if (r.part_numbers.empty() || r.part_numbers.back().value != last_num) {
             r.part_numbers.emplace_back(last_num, r.start_digit_pos, r.end_digit_pos,
                                         line_info.first);
         }
@@ -110,24 +104,21 @@ namespace day3::part1 {
                && pos.y >= top_left.y && pos.y <= bottom_right.y;
     }
 
-    /**
-     * Parse all valid part numbers from the input given the list of special characters. Return the summed up value from
-     * all the valid part numbers.
-     *
-     * @param lines All input lines
-     * @param special_characters All special characters found from the input.
-     * @return The summed up value from all valid part numbers.
-     */
-    int
-    calculate_result(const std::vector<std::string> &lines, const std::vector<special_char> &special_characters) {
+    int calculate_result(const std::vector<std::string> &lines,
+                         const std::vector<special_char> &special_characters) {
         auto filter = [special_characters](const part_number &pn) {
             return std::ranges::any_of(special_characters, [pn](const special_char sc) {
                 return rect_contains(pn.top_left, pn.bottom_right, sc.pos);
             });
         };
+        auto empty_line_filter = [](const std::pair<int, std::string> &line_info) {
+            static const std::string NUMBERS = "0123456789";
+            return line_info.second.find_first_of(NUMBERS) != std::string::npos;
+        };
 
         auto part_number_view = lines
                                 | std::views::enumerate
+                                | std::views::filter(empty_line_filter)
                                 | std::views::transform(parse_part_numbers_from_line)
                                 | std::views::join
                                 | std::views::filter(filter);

@@ -29,8 +29,10 @@ add_executable(tests
         test/day1/test.cpp
         src/day1/day1.h
         src/day1/day1.cpp
+        test/day2/test.cpp
         src/day2/day2.h
         src/day2/day2.cpp
+        test/day3/test.cpp
         src/day3/day3.h
         src/day3/day3.cpp
         src/util.cpp
