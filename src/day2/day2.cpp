@@ -3,6 +3,7 @@
 #include <regex>
 #include <numeric>
 #include <algorithm>
+#include <ranges>
 #include "../util.h"
 #include "day2.h"
 
@@ -45,9 +46,9 @@ std::vector<cubes> parse_cubes(const std::vector<std::string_view> &cube_strings
 
     for (const std::string_view sv: cube_strings) {
         cubes cube {};
-        auto splitted = split(sv, ',');
+        auto splitted = std::views::split(sv, ',');
         for (auto one_cube: splitted) {
-            update_cube(cube, one_cube);
+            update_cube(cube, std::string_view(one_cube));
         }
         parsed_cubes.push_back(cube);
     }
@@ -57,7 +58,11 @@ std::vector<cubes> parse_cubes(const std::vector<std::string_view> &cube_strings
 
 std::vector<cubes> parse_cubes_from_line(const std::string &line) {
     const std::string_view cube_data = parse_cube_data(line);
-    const std::vector<std::string_view> cube_strings = split(cube_data, ';');
+    const std::vector<std::string_view> cube_strings =
+        cube_data
+        | std::views::split(';')
+        | std::views::transform([](auto r) { return std::string_view(r); })
+        | std::ranges::to<std::vector>();
     return parse_cubes(cube_strings);
 }
 
